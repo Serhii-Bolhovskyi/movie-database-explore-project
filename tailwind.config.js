@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         darkPurple: "#00072d",
         lightPurple: '#001241',
+        voteBg: '#001c55',
         yell: '#ffe033'
       },
       fontFamily: {
