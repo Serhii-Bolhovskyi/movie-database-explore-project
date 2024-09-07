@@ -19,7 +19,7 @@
                 <!-- logo -->
                 <div>
                     <a href="">
-                        <img class="w-52" src="public/assets/images/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
+                        <img class="w-52" src="public/images/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" alt="">
                     </a>
                 </div>
                 <!-- search input -->
@@ -27,14 +27,17 @@
                     <input class="outline-none placeholder:opacity-60" type="text" id="search-input" placeholder="Search a movie...">
                     <!-- <div class="rounded-full p-2 bg-gray-100">
                     </div> -->
-                    <img class="hover:scale-105" src="public/assets/images/search_icon.svg" alt="">
+                    <img id="search-btn" class="hover:scale-105" src="public/images/search_icon.svg" alt="">
                 </div>
             </div>
         </div>
     </header>
-    <main class="mt-32" id="movie-container">
-        <p class="text-yell">hello 123</p>
+    <main class="mt-32 pb-20 ">
+        <!-- container for movie cards -->
+        <div id="movie-container" class="container mx-auto flex flex-wrap items-start px-6 gap-8">
+            
+        </div>
     </main>
-    <script src="src/main.js"></script>
+    <script type="module" src="src/main.js"></script>
 </body>
 </html>
