@@ -1,10 +1,27 @@
 const API_KEY = '';
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-const API_MOVIEURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en`;
+const API_GENRESURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en`;
+const API_SEARCHURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=en-US&page=1`
+
+export async function fetchSearching(query) {
+    try {
+        const url = query ? `${API_SEARCHURL}&query=${encodeURIComponent(query)}` : API_SEARCHURL;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error!, status:${response.status}`)
+        };
+        const data = await response.json();
+        return data.results
+    }
+    catch (error) {
+        console.log("Error in searching movie", error);
+        return []
+    }
+}
 
 async function fetchGenres() {
     try {
-        const response = await fetch(API_MOVIEURL);
+        const response = await fetch(API_GENRESURL);
         if (!response.status) {
             throw new Error(`HTTP error!, status:${response.status}`)
         }
@@ -16,12 +33,13 @@ async function fetchGenres() {
     }
 }
 
-export async function fetchMovies(query) {
+export async function fetchMovies() {
     try {
-        const url = query 
-        ? `${API_URL}&query=${encodeURIComponent(query)}` 
-        : API_URL;
-        const response = await fetch(url);
+        // const url = query 
+        // ? `${API_URL}&query=${encodeURIComponent(query)}` 
+        // : API_URL;
+
+        const response = await fetch(API_URL);
         if (!response.status) {
             throw new Error(`HTTP error!, status:${response.status}`)
         }
