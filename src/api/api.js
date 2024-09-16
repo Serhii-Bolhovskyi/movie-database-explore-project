@@ -5,13 +5,22 @@ const API_SEARCHURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_K
 
 export async function fetchSearching(query) {
     try {
-        const url = query ? `${API_SEARCHURL}&query=${encodeURIComponent(query)}` : API_SEARCHURL;
+        const url = `${API_SEARCHURL}&query=${encodeURIComponent(query)}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error!, status:${response.status}`)
         };
         const data = await response.json();
-        return data.results
+        // return data.results
+        const genres = await fetchGenres();
+        const genreMap = new Map(genres.map(genre => [genre.id, genre.name]));
+        
+        const moviesWithGenres = data.results.map(movie => ({
+            ...movie,
+            genres: movie.genre_ids.map(id => genreMap.get(id) || 'Unknown Genre')
+        }));
+        
+        return moviesWithGenres;
     }
     catch (error) {
         console.log("Error in searching movie", error);
@@ -22,7 +31,7 @@ export async function fetchSearching(query) {
 async function fetchGenres() {
     try {
         const response = await fetch(API_GENRESURL);
-        if (!response.status) {
+        if (!response.ok) {
             throw new Error(`HTTP error!, status:${response.status}`)
         }
         const data = await response.json();
@@ -35,12 +44,9 @@ async function fetchGenres() {
 
 export async function fetchMovies() {
     try {
-        // const url = query 
-        // ? `${API_URL}&query=${encodeURIComponent(query)}` 
-        // : API_URL;
 
         const response = await fetch(API_URL);
-        if (!response.status) {
+        if (!response.ok) {
             throw new Error(`HTTP error!, status:${response.status}`)
         }
         const data = await response.json();
