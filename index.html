@@ -15,7 +15,7 @@
         <!-- container -->
         <div class="fixed top-0 right-0 left-0 bg-darkPurple">
             <!-- container for logo and search -->
-            <div class="container mx-auto flex items-center px-6 py-5 space-x-20">
+            <div class="container mx-auto flex flex-col items-center space-y-6 px-6 py-5 md:space-y-0 md:space-x-20 md:flex-row">
                 <!-- logo -->
                 <div>
                     <a href="">
@@ -23,8 +23,8 @@
                     </a>
                 </div>
                 <!-- search input -->
-                <div class="max-w-80 bg-white flex items-center px-4 py-2 space-x-10 rounded-full text-black">
-                    <input type="search" class="outline-none placeholder:opacity-60" id="search-input" placeholder="Search a movie...">
+                <div class="max-w-80 bg-white flex items-center px-4 py-2 md:space-x-10 rounded-full text-black">
+                    <input type="search" class="outline-none placeholder:opacity-60 " id="search-input" placeholder="Search a movie...">
                     <!-- <div class="rounded-full p-2 bg-gray-100">
                     </div> -->
                     <img id="search-btn" class="hover:scale-105" src="public/images/search_icon.svg" alt="">
@@ -32,11 +32,39 @@
             </div>
         </div>
     </header>
-    <main class="mt-32 pb-20 ">
+    <main class="mt-48 md:mt-32 pb-20 ">
         <!-- container for movie cards -->
-        <div id="movie-container" class="container mx-auto flex flex-wrap items-start justify-around px-6 gap-8">
-            
+        <div id="movie-container" class="container mx-auto grid md:grid-cols-3 justify-items-center items-start px-6 gap-y-8
+        lg:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2 min-[520px]:grid-cols-2">
         </div>
+
+        <!-- pagination panel -->
+        <div class="mt-10 flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+          <!-- buttons for small screen -->
+            <div class="flex flex-1 justify-between sm:hidden">
+              <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+              <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+            </div>
+
+            <div class="hidden space-x-[1px] md:justify-center sm:flex sm:flex-1 sm:items-center sm:justify-between">
+             
+                <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                  <!-- <span class="sr-only">Previous</span> -->
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+
+                <nav class="pagination-container isolate inline-flex justify-center space-x-px rounded-md shadow-sm" aria-label="Pagination"></nav>
+
+                <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                  <!-- <span class="sr-only">Next</span> -->
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+            </div>
+          </div>
     </main>
     <script type="module" src="src/main.js"></script>
 </body>
