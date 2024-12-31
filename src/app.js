@@ -5,14 +5,38 @@ import paginationButton from './components/PaginationButton.js';
 const movieContainer = document.getElementById('movie-container');
 const search = document.getElementById('search-btn');
 
-// pagination approach
 
+
+
+// pagination approach
 function renderPagination(totalPages, currentPage = 1) {
   const paginaitonContainer = document.querySelector(".pagination-container");
   paginaitonContainer.innerHTML = '';
 
+  // prev button
+  if (currentPage > 1) {
+    const prevPage = document.querySelectorAll('.prevPage');
+    prevPage.forEach(prev => prev.addEventListener("click", () => {
+      loadMovies(currentPage - 1);
+    }))
+    // prevPage.addEventListener("click", () => {
+    //   loadMovies(currentPage - 1);
+    // })
+  }
+
   for(let i = 1; i <= totalPages; i++) {
     paginaitonContainer.innerHTML += paginationButton(i, i === currentPage);
+  }
+
+  // next button
+  if (currentPage < totalPages) {
+    const nextPage = document.querySelectorAll('.nextPage');
+    nextPage.forEach(next => next.addEventListener("click", () => {
+      loadMovies(currentPage + 1);
+    }))
+    // nextPage.addEventListener("click", () => {
+    //   loadMovies(currentPage + 1);
+    // })
   }
 
   const buttons = document.querySelectorAll(".pagination-container a");
@@ -24,6 +48,7 @@ function renderPagination(totalPages, currentPage = 1) {
     })
   })
 }
+
 
 async function loadMovies(page = 1) {
   try {
@@ -53,6 +78,6 @@ const searchingMovieByQuery = async () => {
   }
 }
 
-search.addEventListener('click', searchingMovieByQuery)
+search.addEventListener('click', searchingMovieByQuery);
 
 document.addEventListener('DOMContentLoaded', () => loadMovies(1));

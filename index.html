@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <link rel="stylesheet" href="css/style.css">
     <title>Movie Database Explore Project</title>
 </head>
@@ -39,16 +40,33 @@
         </div>
 
         <!-- pagination panel -->
-        <div class="mt-10 flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <div class="mt-10 flex items-center justify-center  px-4 py-3 sm:px-6">
           <!-- buttons for small screen -->
-            <div class="flex flex-1 justify-between sm:hidden">
-              <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-              <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+            <div class="flex flex-1 justify-center items-center space-x-10 sm:hidden">
+              
+              <div class="group prevPage flex items-center space-x-3 rounded-3xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <div class="border rounded-full p-1 group-hover:bg-darkPurple transition-transform">
+                  <svg class="h-6 w-6 group-hover:text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <a href="#" class="text-base text-center">Prev</a>
+              </div>
+
+              <div class="group nextPage flex items-center space-x-3 rounded-3xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <a href="#" class="text-base text-center">Next</a>
+                <div class="border rounded-full p-1 group-hover:bg-darkPurple transition-transform">
+                  <svg class="h-6 w-6 group-hover:text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              
             </div>
 
             <div class="hidden space-x-[1px] md:justify-center sm:flex sm:flex-1 sm:items-center sm:justify-between">
              
-                <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <a href="#" class="prevPage relative inline-flex items-center rounded-l-md px-2 py-2 text-white ring-1 ring-inset ring-white hover:bg-darkPurple hover:bg-opacity-80 focus:z-20 focus:outline-offset-0">
                   <!-- <span class="sr-only">Previous</span> -->
                   <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -57,7 +75,7 @@
 
                 <nav class="pagination-container isolate inline-flex justify-center space-x-px rounded-md shadow-sm" aria-label="Pagination"></nav>
 
-                <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <a href="#" class="nextPage relative inline-flex items-center rounded-r-md px-2 py-2 text-white ring-1 ring-inset ring-white hover:bg-darkPurple hover:bg-opacity-80 focus:z-20 focus:outline-offset-0">
                   <!-- <span class="sr-only">Next</span> -->
                   <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />

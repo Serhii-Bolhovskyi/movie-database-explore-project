@@ -1,4 +1,4 @@
-
+const API_KEY = '';
 const API_GENRESURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en`;
 const API_SEARCHURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=en-US&page=1`
 
@@ -21,28 +21,12 @@ export async function fetchMovies(page = 1) {
             genres: movie.genre_ids.map(id => genreMap.get(id))
         }))
              
-        return {
-            movieWithGenre
-        }
+        return { movieWithGenre }
     } catch (error) {
         console.log("Error in fetching movies", error);
         return [];
     }
 }
-
-// fetch multiple pages of movies
-// export async function fetchMultipleMovies(totalPages) {
-//     // store movie in array
-//     let allMovies = [];
-
-//     for(let page = 1; page <= totalPages; page++) {
-//         const movies = await fetchMovies(page);
-//         allMovies = allMovies.concat(movies);
-//     }
-//     return allMovies;
-// }
-// fetchMultipleMovies(4)
-
 
 export async function fetchSearching(query) {
     try {
@@ -82,12 +66,4 @@ async function fetchGenres() {
         console.log('Error in fetching movie genre', error);
     }
 }
-
-
-
-
-
-
-
-
 
