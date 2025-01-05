@@ -44,7 +44,6 @@ export async function fetchSearching(query) {
             ...movie,
             genres: movie.genre_ids.map(id => genreMap.get(id) || 'Unknown Genre')
         }));
-        
         return moviesWithGenres;
     }
     catch (error) {
@@ -53,7 +52,7 @@ export async function fetchSearching(query) {
     }
 }
 
-async function fetchGenres() {
+export async function fetchGenres() {
     try {
         const response = await fetch(API_GENRESURL);
         if (!response.ok) {
@@ -66,4 +65,5 @@ async function fetchGenres() {
         console.log('Error in fetching movie genre', error);
     }
 }
+
 

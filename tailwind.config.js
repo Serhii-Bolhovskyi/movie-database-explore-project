@@ -2,6 +2,7 @@ module.exports = {
   content: [
     "*.html",
     './src/**/*.js',
+    "public/images/*.{png,jpg,jpeg,gif,svg}"
   ],
   theme: {
     extend: {

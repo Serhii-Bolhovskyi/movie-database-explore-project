@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
     <link rel="stylesheet" href="css/style.css">
     <title>Movie Database Explore Project</title>
 </head>
@@ -33,7 +33,41 @@
             </div>
         </div>
     </header>
-    <main class="mt-48 md:mt-32 pb-20 ">
+
+    <main class="mt-48 md:mt-32 pb-20">
+
+        <!--  container for filter and sort  -->
+        <div class="container mx-auto flex flex-col px-6 py-4 mb-4 border border-white">
+            <!--  box for filter svg and dynamic container for genres -->
+            <div class="flex space-x-4">
+                <button id="dropdown-button" class="border px-4 py-1 rounded-3xl hover:scale-105">
+                    <img src="public/images/filter.svg" alt="filter-icon">
+                </button>
+                <div class="w-[2px] bg-white bg-opacity-60"></div>
+
+                <div id="dynamic-genres" class="flex space-x-4"></div>
+            </div>
+            <!--  box for sort options  -->
+        </div>
+
+        <!-- Drop-box that contains filter options -->
+        <div id="dropdown-menu" class="container mx-auto hidden items-start justify-center w-[600px] bg-darkPurple bg-opacity-100 p-6 rounded-md fixed top-50 left-1/2 transform -translate-x-1/2 z-10">
+            <div class="flex w-full flex-col items-center justify-start space-y-4">
+                <div class="flex w-full justify-end">
+                    <button id="close-dropdown-menu">
+                        <img class="transition-transform ease-linear hover:rotate-90" src="public/images/closeBtn.svg" alt="close button">
+                    </button>
+                </div>
+                <!--   container for fetch genres   -->
+                <div class="flex w-full flex-col justify-start space-y-4">
+                    <div class="space-y-1">
+                        <h1 class="text-yell text-2xl text-left">Genres</h1>
+                    </div>
+                    <div id="genres-container" class="flex flex-1 gap-3 flex-wrap"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- container for movie cards -->
         <div id="movie-container" class="container mx-auto grid md:grid-cols-3 justify-items-center items-start px-6 gap-y-8
         lg:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2 min-[520px]:grid-cols-2">

@@ -1,11 +1,22 @@
-import { fetchMovies , fetchSearching } from './api/api.js';
+import { fetchMovies , fetchSearching, fetchGenres} from './api/api.js';
 import movieCard from './components/CardOfMovie.js';
 import paginationButton from './components/PaginationButton.js';
+import genresElement from './components/GenreElement.js';
 
 const movieContainer = document.getElementById('movie-container');
 const search = document.getElementById('search-btn');
+const dropdownButton = document.getElementById('dropdown-button');
+const dropdownMenu = document.getElementById('dropdown-menu');
+const closeDropdownMenu = document.getElementById('close-dropdown-menu');
 
-
+dropdownButton.addEventListener('click', () => {
+  dropdownMenu.classList.remove("hidden")
+  dropdownMenu.classList.add("flex")
+})
+closeDropdownMenu.addEventListener('click', () => {
+  dropdownMenu.classList.remove("flex")
+  dropdownMenu.classList.add("hidden")
+})
 
 
 // pagination approach
@@ -19,9 +30,6 @@ function renderPagination(totalPages, currentPage = 1) {
     prevPage.forEach(prev => prev.addEventListener("click", () => {
       loadMovies(currentPage - 1);
     }))
-    // prevPage.addEventListener("click", () => {
-    //   loadMovies(currentPage - 1);
-    // })
   }
 
   for(let i = 1; i <= totalPages; i++) {
@@ -34,21 +42,25 @@ function renderPagination(totalPages, currentPage = 1) {
     nextPage.forEach(next => next.addEventListener("click", () => {
       loadMovies(currentPage + 1);
     }))
-    // nextPage.addEventListener("click", () => {
-    //   loadMovies(currentPage + 1);
-    // })
   }
 
   const buttons = document.querySelectorAll(".pagination-container a");
   buttons.forEach(button => {
     button.addEventListener("click", event => {
-      // event.preventDefault();
       const page = Number(button.dataset.page);  
       loadMovies(page) // виклик ф-ції для завантаження фільмів
     })
   })
 }
 
+async function renderGenres() {
+  const genresContainer = document.getElementById('genres-container');
+  genresContainer.innerHTML = '';
+
+  const genres = await fetchGenres();
+  genresContainer.innerHTML = genres.map(genre => genresElement({genre})).join('');
+}
+renderGenres();
 
 async function loadMovies(page = 1) {
   try {
@@ -77,7 +89,6 @@ const searchingMovieByQuery = async () => {
     movieContainer.innerHTML = '<p class="text-white">Error searching movies. Please try again.</p>';
   }
 }
-
 search.addEventListener('click', searchingMovieByQuery);
 
 document.addEventListener('DOMContentLoaded', () => loadMovies(1));
