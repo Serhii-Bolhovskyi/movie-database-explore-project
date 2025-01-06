@@ -20,13 +20,13 @@ export async function fetchMovies(page = 1) {
             ...movie,
             genres: movie.genre_ids.map(id => genreMap.get(id))
         }))
-             
         return { movieWithGenre }
     } catch (error) {
         console.log("Error in fetching movies", error);
         return [];
     }
 }
+
 
 export async function fetchSearching(query) {
     try {

@@ -1,7 +1,7 @@
 import { fetchMovies , fetchSearching, fetchGenres} from './api/api.js';
 import movieCard from './components/CardOfMovie.js';
 import paginationButton from './components/PaginationButton.js';
-import genresElement from './components/GenreElement.js';
+import { GenreElement, ActiveGenreElement } from "./components/GenreElement.js";
 
 const movieContainer = document.getElementById('movie-container');
 const search = document.getElementById('search-btn');
@@ -53,14 +53,41 @@ function renderPagination(totalPages, currentPage = 1) {
   })
 }
 
+let activeGenres = [];
+
 async function renderGenres() {
   const genresContainer = document.getElementById('genres-container');
   genresContainer.innerHTML = '';
 
-  const genres = await fetchGenres();
-  genresContainer.innerHTML = genres.map(genre => genresElement({genre})).join('');
+  const genresList = await fetchGenres();
+  const genresHTML =  genresList.map(genre => GenreElement({genre})).join('');
+  genresContainer.innerHTML = genresHTML;
+
+  genresContainer.querySelectorAll('button').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      addGenreToActiveBox(genresList[index])
+    })
+  })
 }
+
+function addGenreToActiveBox(genre) {
+  if(!activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
+    activeGenres.push(genre);
+    updateActiveGenresBox();
+  }
+}
+
+function updateActiveGenresBox() {
+  const activeBox = document.getElementById('dynamic-genres');
+  activeBox.innerHTML = '';
+
+  const activeGenresHTML = activeGenres.map(genre => ActiveGenreElement({genre})).join('');
+  activeBox.innerHTML = activeGenresHTML;
+}
+
 renderGenres();
+
+
 
 async function loadMovies(page = 1) {
   try {
