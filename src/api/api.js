@@ -1,4 +1,4 @@
-const API_KEY = '48e4edaf47d396956cdeaeb65becb7f0';
+const API_KEY = '';
 const API_GENRESURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en`;
 const API_SEARCHURL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=en-US&page=1`
 
@@ -34,7 +34,7 @@ export async function fetchSearching(query) {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error!, status:${response.status}`)
-        };
+        }
         const data = await response.json();
 
         const genres = await fetchGenres();
