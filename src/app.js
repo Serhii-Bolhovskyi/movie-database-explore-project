@@ -77,12 +77,26 @@ function addGenreToActiveBox(genre) {
   }
 }
 
+
+function removeGenreFromActiveBox(genre) {
+  if(activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
+    activeGenres.splice(activeGenres.indexOf(genre), 1);
+    updateActiveGenresBox();
+  }
+}
+
 function updateActiveGenresBox() {
   const activeBox = document.getElementById('dynamic-genres');
   activeBox.innerHTML = '';
 
   const activeGenresHTML = activeGenres.map(genre => ActiveGenreElement({genre})).join('');
   activeBox.innerHTML = activeGenresHTML;
+
+  activeBox.querySelectorAll('div').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      removeGenreFromActiveBox(activeGenres[index])
+    })
+  })
 }
 
 renderGenres();
