@@ -69,19 +69,21 @@ async function renderGenres() {
     })
   })
 }
+renderGenres();
 
 function addGenreToActiveBox(genre) {
   if(!activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
     activeGenres.push(genre);
     updateActiveGenresBox();
+    loadMoviesByActiveGenres();
   }
 }
-
 
 function removeGenreFromActiveBox(genre) {
   if(activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
     activeGenres.splice(activeGenres.indexOf(genre), 1);
     updateActiveGenresBox();
+    loadMoviesByActiveGenres();
   }
 }
 
@@ -99,9 +101,46 @@ function updateActiveGenresBox() {
   })
 }
 
-renderGenres();
 
+async function loadPageBasedOnActiveGenres() {
+  document.addEventListener('DOMContentLoaded', () => {
+    if(activeGenres.length === 0) {
+      loadMovies(1);
+    } else{
+      loadMoviesByActiveGenres(1);
+    }
+  });
+}
+loadPageBasedOnActiveGenres();
 
+async function loadMoviesByActiveGenres(page= 1 ) {
+  try{
+    if(activeGenres.length === 0) {
+      await loadMovies(page);
+      return;
+    }
+
+    const { movieWithGenre } = await fetchMovies(page);
+    console.log(movieWithGenre);
+
+    const activeGenreNames = new Set(activeGenres.map(genre => genre.name));
+    const filteredMovies = movieWithGenre.filter(movie =>
+        Array.from(activeGenreNames).every(genre => movie.genres.includes(genre))
+    );
+    console.log(filteredMovies);
+
+    if(filteredMovies.length === 0) {
+      movieContainer.innerHTML = '<p class="text-white text-center text-4xl items-center">No movies match the selected genres</p>';
+      return;
+    }
+
+    movieContainer.innerHTML = filteredMovies.map(movie => movieCard({ movie })).join('');
+    renderPagination(4, page);
+  } catch (error) {
+    console.error("Error loading movies:", error);
+    movieContainer.innerHTML = '<p class="text-white h-screen">Error fetching movies. Please try again later.</p>';
+  }
+}
 
 async function loadMovies(page = 1) {
   try {
@@ -113,7 +152,7 @@ async function loadMovies(page = 1) {
     renderPagination(4, page);
   } catch (error) {
     console.error("Error loading movies:", error);
-    movieContainer.innerHTML = '<p class="text-white">Error fetching movies. Please try again.</p>';
+    movieContainer.innerHTML = '<p class="text-white h-full">Error fetching movies. Please try again.</p>';
   }
 }
 
@@ -132,4 +171,6 @@ const searchingMovieByQuery = async () => {
 }
 search.addEventListener('click', searchingMovieByQuery);
 
-document.addEventListener('DOMContentLoaded', () => loadMovies(1));
+
+
+
