@@ -25,7 +25,7 @@ let filteredMovies = [];
 async function initializeMovieLoading() {
   try{
     await loadAllMovies();
-    renderGenres();
+    await renderGenres();
     filteredMovies = [...allMovies];
     renderMoviesPaginated(1);
   } catch (error) {
@@ -43,7 +43,6 @@ async function loadAllMovies() {
     do{
       const { movieWithGenre } = await fetchMovies(page);
       allMovies.push(...movieWithGenre);
-
       page++;
     } while (page <= totalPages)
 
@@ -53,7 +52,7 @@ async function loadAllMovies() {
   }
 }
 
-async function loadMoviesByActiveGenres(page ) {
+async function loadMoviesByActiveGenres(page) {
   try{
     if(activeGenres.length === 0) {
       //await loadAllMovies(); // fetch and store all movies in 'allMovies[]'
@@ -66,7 +65,6 @@ async function loadMoviesByActiveGenres(page ) {
     filteredMovies = allMovies.filter(movie =>
         Array.from(activeGenreNames).every(genre => movie.genres.includes(genre))
     );
-    console.log("Filtered Movies:", filteredMovies);
 
     if(filteredMovies.length === 0) {
       movieContainer.innerHTML = '<p class="text-white text-center text-4xl items-center">No movies match the selected genres</p>';
@@ -74,8 +72,6 @@ async function loadMoviesByActiveGenres(page ) {
     }
 
     renderMoviesPaginated(page);
-    // movieContainer.innerHTML = filteredMovies.map(movie => movieCard({ movie })).join('');
-    // renderPagination(4, page);
   } catch (error) {
     console.error("Error loading movies:", error);
     movieContainer.innerHTML = '<p class="text-white h-screen">Error fetching movies. Please try again later.</p>';
@@ -129,47 +125,12 @@ function renderPagination(totalPages, currentPage = 1) {
   })
 }
 
-// pagination approach
-/*function renderPagination(totalPages, currentPage = 1) {
-  const paginaitonContainer = document.querySelector(".pagination-container");
-  paginaitonContainer.innerHTML = '';
-
-  // prev button
-  if (currentPage > 1) {
-    const prevPage = document.querySelectorAll('.prevPage');
-    prevPage.forEach(prev => prev.addEventListener("click", () => {
-      loadMovies(currentPage - 1);
-    }))
-  }
-
-  for(let i = 1; i <= totalPages; i++) {
-    paginaitonContainer.innerHTML += paginationButton(i, i === currentPage);
-  }
-
-  // next button
-  if (currentPage < totalPages) {
-    const nextPage = document.querySelectorAll('.nextPage');
-    nextPage.forEach(next => next.addEventListener("click", () => {
-      loadMovies(currentPage + 1);
-    }))
-  }
-
-  const buttons = document.querySelectorAll(".pagination-container a");
-  buttons.forEach(button => {
-    button.addEventListener("click", event => {
-      const page = Number(button.dataset.page);  
-      loadMovies(page) // виклик ф-ції для завантаження фільмів
-    })
-  })
-}*/
-
 async function renderGenres() {
   const genresContainer = document.getElementById('genres-container');
   genresContainer.innerHTML = '';
 
   const genresList = await fetchGenres();
-  const genresHTML =  genresList.map(genre => GenreElement({genre})).join('');
-  genresContainer.innerHTML = genresHTML;
+  genresContainer.innerHTML = genresList.map(genre => GenreElement({genre})).join('');
 
   genresContainer.querySelectorAll('button').forEach((button, index) => {
     button.addEventListener('click', () => {
@@ -177,85 +138,51 @@ async function renderGenres() {
     })
   })
 }
-// renderGenres();
 
-function addGenreToActiveBox(genre) {
+async function addGenreToActiveBox(genre) {
   if(!activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
     activeGenres.push(genre);
-    updateActiveGenresBox();
-    loadMoviesByActiveGenres();
+    await updateActiveGenresBox();
+  }
+  try{
+    await loadMoviesByActiveGenres();
+  }
+  catch (error) {
+    throw new Error(`Error in addGenreToActiveBox: ${error.message}`);
   }
 }
 
-function removeGenreFromActiveBox(genre) {
+async function removeGenreFromActiveBox(genre) {
   if(activeGenres.some(activeGenre => activeGenre.id === genre.id)) {
     activeGenres.splice(activeGenres.indexOf(genre), 1);
-    updateActiveGenresBox();
-    loadMoviesByActiveGenres();
+    await updateActiveGenresBox();
+  }
+  try{
+    await loadMoviesByActiveGenres();
+  }
+  catch (error) {
+    throw new Error(`Error in addGenreToActiveBox: ${error.message}`);
   }
 }
 
-function updateActiveGenresBox() {
+async function updateActiveGenresBox() {
   const activeBox = document.getElementById('dynamic-genres');
   activeBox.innerHTML = '';
 
-  const activeGenresHTML = activeGenres.map(genre => ActiveGenreElement({genre})).join('');
-  activeBox.innerHTML = activeGenresHTML;
+  activeBox.innerHTML = activeGenres.map(genre => ActiveGenreElement({genre})).join('');
 
   activeBox.querySelectorAll('div').forEach((button, index) => {
-    button.addEventListener('click', () => {
-      removeGenreFromActiveBox(activeGenres[index])
+    button.addEventListener('click', async () => {
+      try{
+        await removeGenreFromActiveBox(activeGenres[index]);
+      } catch(error){
+        console.error(`Error in removeGenreFromActiveBox: ${error.message}`);
+      }
     })
   })
 }
 
-// async function loadPageBasedOnActiveGenres() {
-//   document.addEventListener('DOMContentLoaded', () => {
-//     if(activeGenres.length === 0) {
-//       loadMovies(1);
-//     } else{
-//       loadMoviesByActiveGenres();
-//     }
-//   });
-// }
-// loadPageBasedOnActiveGenres();
-
-
-
-/*async function loadAllMovies() {
-  try{
-    allMovies = [];
-    let page = 1;
-    let totalPages = 4;
-
-    do{
-      const { movieWithGenre } = await fetchMovies(page);
-      allMovies.push(...movieWithGenre);
-
-      page++;
-    } while (page <= totalPages)
-
-  } catch (error) {
-    console.error("Error fetching all movies:", error);
-    movieContainer.innerHTML = '<p class="text-white">Error fetching movies. Please try again later.</p>';
-  }
-}*/
-
-// async function loadMovies(page = 1) {
-//   try {
-//     // Завантажуємо фільми тільки для поточної сторінки
-//     const { movieWithGenre } = await fetchMovies(page);
-//     movieContainer.innerHTML = movieWithGenre.map(movie => movieCard({ movie })).join('');
-//
-//     // Рендеримо кнопки пагінації
-//     renderPagination(totalPages, page);
-//   } catch (error) {
-//     console.error("Error loading movies:", error);
-//     movieContainer.innerHTML = '<p class="text-white h-full">Error fetching movies. Please try again.</p>';
-//   }
-// }
-
-initializeMovieLoading();
+await initializeMovieLoading();
 
 const searchingMovieByQuery = async () => {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
@@ -263,8 +190,8 @@ const searchingMovieByQuery = async () => {
   try {
     const movies = await fetchSearching(query);
     movieContainer.innerHTML = "";
-    const movieCards = movies.map(movie => movieCard({movie})).join('');
-    movieContainer.innerHTML = movieCards;
+
+    movieContainer.innerHTML =  movies.map(movie => movieCard({movie})).join('');
   }
   catch (error) {
     movieContainer.innerHTML = '<p class="text-white">Error searching movies. Please try again.</p>';
