@@ -18,6 +18,8 @@ closeDropdownMenu.addEventListener('click', () => {
   dropdownMenu.classList.add("hidden")
 })
 
+let sortContainer = document.getElementById('sort-by-selector');
+
 let allMovies = [];
 let activeGenres = [];
 let filteredMovies = [];
@@ -27,6 +29,8 @@ async function initializeMovieLoading() {
     await loadAllMovies();
     await renderGenres();
     filteredMovies = [...allMovies];
+
+    applySortingAndUpdateUI(sortContainer.value)
     renderMoviesPaginated(1);
   } catch (error) {
     console.error("Error initializing the app:", error);
@@ -146,6 +150,7 @@ async function addGenreToActiveBox(genre) {
   }
   try{
     await loadMoviesByActiveGenres();
+    applySortingAndUpdateUI(sortContainer.value)
   }
   catch (error) {
     throw new Error(`Error in addGenreToActiveBox: ${error.message}`);
@@ -175,14 +180,13 @@ async function updateActiveGenresBox() {
     button.addEventListener('click', async () => {
       try{
         await removeGenreFromActiveBox(activeGenres[index]);
+        applySortingAndUpdateUI(sortContainer.value)
       } catch(error){
         console.error(`Error in removeGenreFromActiveBox: ${error.message}`);
       }
     })
   })
 }
-
-await initializeMovieLoading();
 
 const searchingMovieByQuery = async () => {
   const query = document.getElementById('search-input').value.trim().toLowerCase();
@@ -198,6 +202,45 @@ const searchingMovieByQuery = async () => {
   }
 }
 search.addEventListener('click', searchingMovieByQuery);
+
+function applySortingAndUpdateUI(sortBy, page = 1) {
+
+  switch (sortBy) {
+    case 'ranking':
+      sortByRanking(page)
+      break;
+    default:
+      console.log("default")
+      break;
+  }
+}
+
+function sortByRanking(page = 1) {
+  movieContainer.innerHTML = '';
+
+  let sortedMovies;
+
+  sortedMovies = filteredMovies.sort((a, b) => b.vote_average - a.vote_average )
+
+  movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
+  renderMoviesPaginated(page )
+}
+
+sortContainer.onchange = function () {
+  applySortingAndUpdateUI(sortContainer.value, 1);
+};
+
+await initializeMovieLoading();
+
+
+// const rank = filteredMovies.sort((a, b) => b.vote_average - a.vote_average)
+// const voteAverages = rank.map(movie => movie.vote_average);
+// console.log(voteAverages);
+
+
+
+
+
 
 
 
