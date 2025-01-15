@@ -8,6 +8,12 @@ const search = document.getElementById('search-btn');
 const dropdownButton = document.getElementById('dropdown-button');
 const dropdownMenu = document.getElementById('dropdown-menu');
 const closeDropdownMenu = document.getElementById('close-dropdown-menu');
+const arrBtn = document.getElementById('arr-rotate')
+
+arrBtn.addEventListener('click', () => {
+  arrBtn.classList.toggle('rotate-180')
+  applySortingAndUpdateUI(sortContainer.value, 1)
+})
 
 dropdownButton.addEventListener('click', () => {
   dropdownMenu.classList.remove("hidden")
@@ -211,6 +217,7 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
       sortByRanking(page)
       break;
     case 'none':
+
       loadMoviesByActiveGenres(page)
       break;
     case 'releaseDate':
@@ -229,7 +236,11 @@ function sortByRanking(page = 1) {
   movieContainer.innerHTML = '';
   let sortedMovies;
 
-  sortedMovies = filteredMovies.sort((a, b) => b.vote_average - a.vote_average )
+  if(arrBtn.classList.contains('rotate-180')){
+    sortedMovies = filteredMovies.sort((a, b) => b.vote_average - a.vote_average )
+  } else {
+    sortedMovies = filteredMovies.sort((a, b) => a.vote_average - b.vote_average )
+  }
 
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page )
@@ -239,10 +250,15 @@ function sortByReleaseDate(page = 1) {
   movieContainer.innerHTML = '';
   let sortedMovies;
 
-  sortedMovies = filteredMovies.sort((a, b) => {
-    return new Date(b.release_date) - new Date(a.release_date)
-  })
-  console.log(sortedMovies)
+  if(arrBtn.classList.contains('rotate-180')){
+    sortedMovies = filteredMovies.sort((a, b) => {
+      return new Date(b.release_date) - new Date(a.release_date)
+    })
+  } else {
+    sortedMovies = filteredMovies.sort((a, b) => {
+      return new Date(a.release_date) - new Date(b.release_date)
+    })
+  }
 
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page )
@@ -252,7 +268,12 @@ function sortByPopularityDate(page = 1) {
   movieContainer.innerHTML = '';
   let sortedMovies;
 
-  sortedMovies = filteredMovies.sort((a, b) => b.popularity - a.popularity)
+  if(arrBtn.classList.contains('rotate-180')){
+    sortedMovies = filteredMovies.sort((a, b) => b.popularity - a.popularity)
+  } else {
+    sortedMovies = filteredMovies.sort((a, b) => a.popularity - b.popularity)
+  }
+
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page)
 }
