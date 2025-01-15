@@ -13,9 +13,11 @@ export default function movieCard({ movie }) {
                     </div>
                 </div>
                 <p class="text-white text-xs opacity-60 tracking-normal h-8">${movie.genres.join(', ')}</p>           
-                <p class="text-sm text-white text-opacity-60">${movie.release_date.split('-')[0]}</p>
+                <p class="text-sm text-white text-opacity-60">${movie.release_date}</p>
             </div> 
         </div>
     </div>
     `
 }
+
+/*.split('-')[0]*/

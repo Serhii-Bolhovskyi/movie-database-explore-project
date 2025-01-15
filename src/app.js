@@ -30,7 +30,7 @@ async function initializeMovieLoading() {
     await renderGenres();
     filteredMovies = [...allMovies];
 
-    applySortingAndUpdateUI(sortContainer.value)
+    // applySortingAndUpdateUI(sortContainer.value)
     renderMoviesPaginated(1);
   } catch (error) {
     console.error("Error initializing the app:", error);
@@ -209,6 +209,15 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
     case 'ranking':
       sortByRanking(page)
       break;
+    case 'none':
+      filteredMovies = [...allMovies];
+      renderMoviesPaginated(page);
+      console.log('none')
+      break;
+      case 'releaseDate':
+        sortByReleaseDate(page)
+        console.log('date')
+        break;
     default:
       console.log("default")
       break;
@@ -217,10 +226,21 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
 
 function sortByRanking(page = 1) {
   movieContainer.innerHTML = '';
-
   let sortedMovies;
 
   sortedMovies = filteredMovies.sort((a, b) => b.vote_average - a.vote_average )
+
+  movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
+  renderMoviesPaginated(page )
+}
+
+function sortByReleaseDate(page = 1) {
+  movieContainer.innerHTML = '';
+  let sortedMovies;
+
+  sortedMovies = filteredMovies.sort((a, b) => {
+    return new Date(b.release_date) - new Date(a.release_date)
+  })
 
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page )
@@ -231,13 +251,6 @@ sortContainer.onchange = function () {
 };
 
 await initializeMovieLoading();
-
-
-// const rank = filteredMovies.sort((a, b) => b.vote_average - a.vote_average)
-// const voteAverages = rank.map(movie => movie.vote_average);
-// console.log(voteAverages);
-
-
 
 
 
