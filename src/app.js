@@ -210,8 +210,7 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
       sortByRanking(page)
       break;
     case 'none':
-      filteredMovies = [...allMovies];
-      renderMoviesPaginated(page);
+      loadMoviesByActiveGenres(page)
       console.log('none')
       break;
       case 'releaseDate':
