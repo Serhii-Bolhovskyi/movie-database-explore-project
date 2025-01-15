@@ -37,15 +37,15 @@
     <main class="mt-48 md:mt-32 pb-20">
 
         <!--  container for filter and sort  -->
-        <div class="container mx-auto flex flex-col px-10 py-4 mb-4 overflow-y-scroll">
+        <div class="container mx-auto flex flex-col px-10 py-4 mb-4 ">
             <!--  box for filter svg and dynamic container for genres -->
-            <div class="flex space-x-4">
-                <button id="dropdown-button" class="border px-4 py-1 rounded-3xl hover:scale-105">
+            <div class="flex space-x-4 flex-shrink-0">
+                <button id="dropdown-button" class="flex  flex-shrink-0 border px-4 py-1 rounded-3xl hover:scale-105">
                     <img src="public/images/filter.svg" alt="filter-icon">
                 </button>
-                <div class="w-[2px] bg-white bg-opacity-60"></div>
+                <div class="w-[2px] bg-white bg-opacity-60 "></div>
 
-                <div id="dynamic-genres" class="flex space-x-4"></div>
+                <div id="dynamic-genres" class="flex space-x-4 overflow-x-auto whitespace-nowrap flex-nowrap"></div>
             </div>
             <!--  box for sort options  -->
             <div class="flex items-center justify-end">
@@ -56,12 +56,11 @@
                             id="sort-by-selector"
                             class="bg-inherit hover:bg-opacity-80 px-4 py-1 rounded-lg w-fit text-white focus:outline-none focus:border-dashed focus:border-2 border-white appearance-none relative"
                     >
-                        <option>Choose</option>
                         <option value="none">None </option>
                         <option value="ranking">Ranking</option>
                         <option value="releaseDate">Release date</option>
                         <option value="popularity">Popularity</option>
-                        <option value="runtime">Runtime</option>
+<!--                        <option value="runtime">Runtime</option>-->
                     </select>
                 </div>
             </div>

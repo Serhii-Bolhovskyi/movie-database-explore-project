@@ -148,6 +148,7 @@ async function addGenreToActiveBox(genre) {
     activeGenres.push(genre);
     await updateActiveGenresBox();
   }
+
   try{
     await loadMoviesByActiveGenres();
     applySortingAndUpdateUI(sortContainer.value)
@@ -211,12 +212,13 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
       break;
     case 'none':
       loadMoviesByActiveGenres(page)
-      console.log('none')
       break;
-      case 'releaseDate':
-        sortByReleaseDate(page)
-        console.log('date')
-        break;
+    case 'releaseDate':
+      sortByReleaseDate(page)
+      break;
+    case "popularity":
+      sortByPopularityDate(page);
+      break
     default:
       console.log("default")
       break;
@@ -240,9 +242,19 @@ function sortByReleaseDate(page = 1) {
   sortedMovies = filteredMovies.sort((a, b) => {
     return new Date(b.release_date) - new Date(a.release_date)
   })
+  console.log(sortedMovies)
 
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page )
+}
+
+function sortByPopularityDate(page = 1) {
+  movieContainer.innerHTML = '';
+  let sortedMovies;
+
+  sortedMovies = filteredMovies.sort((a, b) => b.popularity - a.popularity)
+  movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
+  renderMoviesPaginated(page)
 }
 
 sortContainer.onchange = function () {

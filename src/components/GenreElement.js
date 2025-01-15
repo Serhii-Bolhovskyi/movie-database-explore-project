@@ -8,7 +8,7 @@ function GenreElement({ genre }) {
 
 function ActiveGenreElement({ genre }) {
     return `
-        <div class="flex items-center space-x-1 justify-center bg-white px-2 py-1 rounded-3xl hover:bg-gray-300">
+        <div class="flex items-center space-x-1 justify-center bg-white px-2 py-1 rounded-3xl hover:bg-gray-300 flex-shrink-0">
             <button class="text-darkPurple text-base">${genre.name}</button>
             <img class="w-6 h-6 stroke-[#00072d]" src="public/images/closeBtnDark.svg" alt="">
         </div>
