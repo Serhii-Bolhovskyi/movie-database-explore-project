@@ -34,10 +34,10 @@
         </div>
     </header>
 
-    <main class="mt-48 md:mt-32 pb-20">
+    <main class="mt-48 md:mt-32 pb-20 relative">
 
         <!--  container for filter and sort  -->
-        <div class="container mx-auto flex flex-col px-10 py-4 mb-4 ">
+        <div class="container mx-auto flex flex-col px-10 py-4 mb-4 space-y-4">
             <!--  box for filter svg and dynamic container for genres -->
             <div class="flex space-x-4 flex-shrink-0">
                 <button id="dropdown-button" class="flex  flex-shrink-0 border px-4 py-1 rounded-3xl hover:scale-105">
@@ -48,7 +48,7 @@
                 <div id="dynamic-genres" class="flex space-x-4 overflow-x-auto whitespace-nowrap flex-nowrap"></div>
             </div>
             <!--  box for sort options  -->
-            <div class="flex items-center justify-end">
+            <div class="flex items-center md:justify-end justify-start">
                 <!--  sort container -->
                 <div class="flex items-center justify-center">
                     <label class="text-white text-base mr-4" for="sort-by-selector">Sort by</label>
@@ -136,6 +136,12 @@
                 </a>
             </div>
           </div>
+
+        <!-- Full info about movie  -->
+        <div id="full-info-container" class="absolute hidden items-center bg-lightPurple w-full h-screen top-0 left-1/2 transform -translate-x-1/2 px-6 ">
+
+        </div>
+
     </main>
     <script type="module" src="src/main.js"></script>
 </body>

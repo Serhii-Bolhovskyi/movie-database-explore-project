@@ -1,7 +1,8 @@
-import { fetchMovies , fetchSearching, fetchGenres} from './api/api.js';
+import { fetchMovies , fetchSearching, fetchGenres, fetchFullInfo} from './api/api.js';
 import movieCard from './components/CardOfMovie.js';
 import paginationButton from './components/PaginationButton.js';
 import { GenreElement, ActiveGenreElement } from "./components/GenreElement.js";
+import movieDetails  from "./components/movieDetails.js";
 
 const movieContainer = document.getElementById('movie-container');
 const search = document.getElementById('search-btn');
@@ -9,6 +10,9 @@ const dropdownButton = document.getElementById('dropdown-button');
 const dropdownMenu = document.getElementById('dropdown-menu');
 const closeDropdownMenu = document.getElementById('close-dropdown-menu');
 const arrBtn = document.getElementById('arr-rotate')
+const fullInfoContainer = document.getElementById('full-info-container');
+
+
 
 arrBtn.addEventListener('click', () => {
   arrBtn.classList.toggle('rotate-180')
@@ -48,7 +52,7 @@ async function loadAllMovies() {
   try{
     allMovies = [];
     let page = 1;
-    let totalPages = 4;
+    let totalPages = 8;
 
     do{
       const { movieWithGenre } = await fetchMovies(page);
@@ -217,7 +221,6 @@ function applySortingAndUpdateUI(sortBy, page = 1) {
       sortByRanking(page)
       break;
     case 'none':
-
       loadMoviesByActiveGenres(page)
       break;
     case 'releaseDate':
@@ -241,6 +244,7 @@ function sortByRanking(page = 1) {
   } else {
     sortedMovies = filteredMovies.sort((a, b) => a.vote_average - b.vote_average )
   }
+  console.log(sortedMovies);
 
   movieContainer.innerHTML = sortedMovies.map(movie => movieCard({ movie })).join('')
   renderMoviesPaginated(page )
@@ -281,6 +285,49 @@ function sortByPopularityDate(page = 1) {
 sortContainer.onchange = function () {
   applySortingAndUpdateUI(sortContainer.value, 1);
 };
+
+// activate full container
+
+async function openFullDetails(id){
+  try{
+    const movie = await fetchFullInfo(id);
+    fullInfoContainer.innerHTML = movieDetails({ movie
+    });
+
+    const closeFullButton = document.getElementById('closeFull');
+    closeFullButton.addEventListener('click', closeFull);
+
+    console.log(movie)
+
+    fullInfoContainer.classList.remove('hidden');
+    fullInfoContainer.classList.add('flex');
+    movieContainer.classList.remove('flex')
+    movieContainer.classList.add('hidden')
+  }
+catch(error){
+    console.error(error);
+}
+}
+
+  movieContainer.addEventListener('click', (event) => {
+    const clickedMovie = event.target.closest('.movie');
+    console.log(clickedMovie)
+    if (clickedMovie) {
+      const movieId = clickedMovie.dataset.id;
+      console.log(movieId);
+      openFullDetails(movieId);
+      closeFull()
+    }
+  });
+
+function closeFull() {
+  fullInfoContainer.classList.remove('flex');
+  fullInfoContainer.classList.add('hidden');
+  movieContainer.classList.remove('hidden');
+  movieContainer.classList.add('flex');
+}
+
+
 
 await initializeMovieLoading();
 

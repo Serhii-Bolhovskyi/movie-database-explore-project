@@ -1,6 +1,6 @@
 export default function movieCard({ movie }) {
     return `
-    <div class="w-52 flex flex-col justify-center space-y-3">
+    <div class="movie w-52 flex flex-col justify-center space-y-3 cursor-pointer" data-id=${movie.id}>
         <img class="aspect-square object-fill" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
         <div class="flex flex-col space-y-3">
                 <div class="flex items-start space-x-1">

@@ -1,7 +1,8 @@
-const API_KEY = "";
+const API_KEY = "48e4edaf47d396956cdeaeb65becb7f0";
 const API_GENRES_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en`;
 const API_SEARCH_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&include_adult=false&language=en-US&page=1`
 
+// fetch popular movies with specific page
 // fetch popular movies with specific page
 export async function fetchMovies(page = 1) {
     const API_POPULAR_MOVIE = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
@@ -72,4 +73,17 @@ export async function fetchGenres() {
     }
 }
 
+export async function fetchFullInfo(id){
+    try{
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${API_KEY}`)
+        if (!response.ok) {
+            throw new Error(`HTTP error!, status:${response.status}`)
+        }
+        const data = await response.json();
+        return data;
+    }
+    catch (error) {
+        console.log('Error in fetching movie genre', error);
+    }
+}
 
