@@ -6,7 +6,7 @@ export default function movieDetails({ movie }) {
                 <img class="w-full h-[420px] blur-sm" src="https://image.tmdb.org/t/p/w500${movie.backdrop_path}" alt="">
             </div>
             <div class="absolute flex flex-col space-y-4 items-start w-[850px] top-80 left-1/2 transform -translate-x-1/2">
-                <div class="flex space-x-4 w-full">
+                <div class="flex space-x-4 w-full back-blur ">
                      <img class="w-[300px] h-[350px]  object-fill" src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="">
                     <div class="flex flex-col text-white space-y-4">
                         <h1 class="text-white text-5xl">${movie.title}</h1>
@@ -24,23 +24,23 @@ export default function movieDetails({ movie }) {
                         </div>
                         <div class="flex flex-col space-y-3">
                             <div class="flex items-center  space-x-4 ">
-                                <p class="text-lg">Tagline: </p>
+                                <p class="text-lg w-24">Tagline: </p>
                                 <span class="text-base">${movie.tagline}</span>
                              </div> 
                              <div class="flex items-center space-x-4">
-                                <p class="text-lg">Genre: </p>
+                                <p class="text-lg w-24">Genre: </p>
                                 <span class="text-base">${movie.genres.map((genre) => genre.name).join(", ")}</span>
                              </div>
                              <div class="flex items-center space-x-4">
-                                <p class="text-lg">Country: </p>
+                                <p class="text-lg w-24">Country: </p>
                                 <span class="text-base">${movie.production_countries.map((country) => country.name).join(", ")}</span>
                              </div>
                              <div class="flex items-start space-x-4">
-                                <p class="text-lg">Production:</p>
+                                <p class="text-lg w-24">Production:</p>
                                 <span class="text-base w-80">${movie.production_companies.map((country) => country.name).join(", ")}</span>
                              </div>
                              <div class="flex items-center space-x-4">
-                                <p class="text-lg">Budget:</p>
+                                <p class="text-lg w-24">Budget:</p>
                                 <span class="text-base">${movie.budget}$</span>
                              </div>
                         </div>
@@ -53,7 +53,7 @@ export default function movieDetails({ movie }) {
                             <h2 class="text-3xl" >Overview</h2>
                          </div>
                         
-                         <p class="text-base">${movie.overview}</p>
+                         <p class="text-lg">${movie.overview}</p>
                     </div>
                 </div>
             </div>
